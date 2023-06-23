@@ -1,7 +1,7 @@
 #ifndef SORT_H
 #define SORT_H
 
-#include <studio.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 /* Macro definitions for specifying the comparison direction in bitonic sort */

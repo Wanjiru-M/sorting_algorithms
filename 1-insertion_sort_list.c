@@ -1,42 +1,40 @@
 #include "sort.h"
-#include <stdio.h>
 
 /**
- * insertion_sort_list - Sorts a doubly linked list in ascending order using Insertion Sort
- * @list: Pointer to the head of the list
+ * selection_sort - sorts an array following the selection sort algorithm
+ * @array: array to sort
+ * @size: size of the array;
  */
-void insertion_sort_list(listint_t **list)
+void selection_sort(int *array, size_t size)
 {
-	if (*list == NULL || (*list)->next == NULL)
+	unsigned int i, j, min_idx;
+	int tmp;
+
+	if (size < 2)
 		return;
 
-	listint_t *current, *sorted, *prev;
+	i = 0;
 
-	sorted = (*list)->next;
-	while (sorted != NULL)
+loop:
+	min_idx = i;
+	j = i + 1;
+
+	do {
+		if (array[j] < array[min_idx])
+			min_idx = j;
+		j++;
+	} while (j < size);
+
+	if (min_idx != i)
 	{
-		current = sorted;
-		sorted = sorted->next;
-
-		while (current->prev != NULL && current->n < current->prev->n)
-		{
-			prev = current->prev;
-
-			prev->next = current->next;
-			if (current->next != NULL)
-				current->next->prev = prev;
-
-			current->next = prev;
-			current->prev = prev->prev;
-
-			if (prev->prev != NULL)
-				prev->prev->next = current;
-			else
-				*list = current;
-
-			prev->prev = current;
-
-			print_list(*list);
-		}
+		tmp = array[i];
+		array[i] = array[min_idx];
+		array[min_idx] = tmp;
+		print_array(array, size);
 	}
+
+	i++;
+
+	if (i < size - 1)
+		goto loop;
 }

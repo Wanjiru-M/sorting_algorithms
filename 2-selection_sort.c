@@ -25,7 +25,8 @@ loop:
 		j++;
 	} while (j < size);
 
-	if (min_idx != i) {
+	if (min_idx != i)
+	{
 		tmp = array[i];
 		array[i] = array[min_idx];
 		array[min_idx] = tmp;

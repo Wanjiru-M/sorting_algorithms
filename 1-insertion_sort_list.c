@@ -14,27 +14,24 @@ void selection_sort(int *array, size_t size)
 		return;
 
 	i = 0;
-
-loop:
-	min_idx = i;
-	j = i + 1;
-
 	do {
-		if (array[j] < array[min_idx])
-			min_idx = j;
-		j++;
-	} while (j < size);
+		min_idx = i;
+		j = i + 1;
 
-	if (min_idx != i)
-	{
-		tmp = array[i];
-		array[i] = array[min_idx];
-		array[min_idx] = tmp;
-		print_array(array, size);
-	}
+		do {
+			if (array[j] < array[min_idx])
+				min_idx = j;
+			j++;
+		} while (j < size);
 
-	i++;
+		if (min_idx != i)
+		{
+			tmp = array[i];
+			array[i] = array[min_idx];
+			array[min_idx] = tmp;
+			print_array(array, size);
+		}
 
-	if (i < size - 1)
-		goto loop;
+		i++;
+	} while (i < size - 1);
 }

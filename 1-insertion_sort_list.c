@@ -1,48 +1,56 @@
 #include "sort.h"
 
 /**
- * swap_nodes - Swap two nodes in a listint_t doubly-linked list.
- * @h: A pointer to the head of the doubly-linked list.
- * @n1: A pointer to the first node to swap.
- * @n2: The second node to swap.
+ * swapNodes - Swap two nodes in a listint_t doubly-linked list.
+ * @head: A pointer to the head of the doubly-linked list.
+ * @nodeA: A pointer to the first node to swap.
+ * @nodeB: The second node to swap.
  */
-void swap_nodes(listint_t **h, listint_t **n1, listint_t *n2)
+void swapNodes(listint_t **head, listint_t **nodeA, listint_t *nodeB)
 {
-	(*n1)->next = n2->next;
-	if (n2->next != NULL)
-		n2->next->prev = *n1;
-	n2->prev = (*n1)->prev;
-	n2->next = *n1;
-	if ((*n1)->prev != NULL)
-		(*n1)->prev->next = n2;
-	else
-		*h = n2;
-	(*n1)->prev = n2;
-	*n1 = n2->prev;
+    listint_t *temp = *nodeA;
+    
+    do {
+        temp->next = nodeB->next;
+        if (nodeB->next != NULL)
+            nodeB->next->prev = temp;
+        nodeB->prev = temp->prev;
+        nodeB->next = temp;
+        if (temp->prev != NULL)
+            temp->prev->next = nodeB;
+        else
+            *head = nodeB;
+        temp->prev = nodeB;
+        *nodeA = nodeB->prev;
+    } while (0);
 }
 
 /**
- * insertion_sort_list - Sorts a doubly linked list of integers
- *                       using the insertion sort algorithm.
- * @list: A pointer to the head of a doubly-linked list of integers.
+ * insertionSortList - Sorts a doubly linked list of integers
+ *                     using the insertion sort algorithm.
+ * @head: A pointer to the head of a doubly-linked list of integers.
  *
  * Description: Prints the list after each swap.
  */
-void insertion_sort_list(listint_t **list)
+void insertionSortList(listint_t **head)
 {
-	listint_t *iter, *insert, *tmp;
+    listint_t *current, *insert, *tmp;
 
-	if (list == NULL || *list == NULL || (*list)->next == NULL)
-		return;
+    if (head == NULL || *head == NULL || (*head)->next == NULL)
+        return;
 
-	for (iter = (*list)->next; iter != NULL; iter = tmp)
-	{
-		tmp = iter->next;
-		insert = iter->prev;
-		while (insert != NULL && iter->n < insert->n)
-		{
-			swap_nodes(list, &insert, iter);
-			print_list((const listint_t *)*list);
-		}
-	}
+    current = (*head)->next;
+    while (current != NULL)
+    {
+        tmp = current->next;
+        insert = current->prev;
+        while (insert != NULL && current->n < insert->n)
+        {
+            swapNodes(head, &insert, current);
+            printList((const listint_t *)*head);
+            insert = current->prev;
+        }
+        current = tmp;
+    }
 }
+

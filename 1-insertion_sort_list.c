@@ -10,17 +10,14 @@ int len_list(listint_t *h)
 {
     int len = 0;
 
-    if (h == NULL)
-        return len;
-
-    do {
+    while (h != NULL)
+    {
         len++;
         h = h->next;
-    } while (h != NULL);
+    }
 
     return len;
 }
-
 
 /**
  * insertion_sort_list - sorts a linked list with the Insert Sort algorithm
@@ -28,41 +25,32 @@ int len_list(listint_t *h)
  */
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *curr = NULL, *one = NULL;
-	listint_t *two = NULL, *three = NULL, *four = NULL;
+    listint_t *c = NULL, *o = NULL;
+    listint_t *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL;
 
-	if (!list || !(*list) || len_list(*list) < 2)
-		return;
+    if (!list || !(*list) || len_list(*list) < 2)
+        return;
 
-	curr = *list;
+    c = *list;
 
-	while (curr != NULL)
-	{
-		switch (curr->prev && curr->n < curr->prev->n)
-		{
-			case 1:
-				one = curr->prev->prev;
-				two = curr->prev;
-				three = curr;
-				four = curr->next;
-
-				two->next = four;
-				if (four != NULL)
-					four->prev = two;
-				three->next = two;
-				three->prev = one;
-				if (one != NULL)
-					one->next = three;
-				else
-					*list = three;
-				two->prev = three;
-				curr = *list;
-				print_list(*list);
-				break;
-
-			default:
-				curr = curr->next;
-				break;
-		}
-	}
+    while (c != NULL)
+    {
+        (void)(c->prev != NULL && c->n < c->prev->n) ? (
+            t1 = c->prev->prev,
+            t2 = c->prev,
+            t3 = c,
+            t4 = c->next,
+            t2->next = t4,
+            (t4 != NULL) ? (t4->prev = t2) : 0,
+            t3->next = t2,
+            t3->prev = t1,
+            (t1 != NULL) ? (t1->next = t3) : (*list = t3),
+            t2->prev = t3,
+            c = *list,
+            print_list(*list)
+        ) : (
+            c = c->next
+        );
+    }
 }
+

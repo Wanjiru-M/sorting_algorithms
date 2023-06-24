@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "sort.h"
 
 /**
@@ -10,38 +9,38 @@
  */
 void insertion_sort_list(listint_t **list)
 {
-    if (list == NULL || *list == NULL || (*list)->next == NULL)
-        return;
+	if (list == NULL || *list == NULL || (*list)->next == NULL)
+		return;
 
-    listint_t *curr, *insert, *temp;
+	listint_t *curr, *temp;
 
-    curr = (*list)->next;
-    while (curr != NULL)
-    {
-        insert = curr;
-        temp = insert->prev;
+	curr = (*list)->next;
 
-        while (temp != NULL && temp->n > insert->n)
-        {
-            if (temp->prev != NULL)
-                temp->prev->next = insert;
-            else
-                *list = insert;
+	while (curr != NULL)
+	{
+		temp = curr;
 
-            if (insert->next != NULL)
-                insert->next->prev = temp;
+		while (temp->prev != NULL && temp->n < temp->prev->n)
+		{
+			temp->prev->next = temp->next;
 
-            temp->next = insert->next;
-            insert->prev = temp->prev;
-            temp->prev = insert;
-            insert->next = temp;
+			if (temp->next != NULL)
+				temp->next->prev = temp->prev;
 
-            print_list(*list);
+			temp->next = temp->prev;
+			temp->prev = temp->prev->prev;
+			temp->next->prev = temp;
 
-            temp = insert->prev;
-        }
+			if (temp->prev != NULL)
+				temp->prev->next = temp;
+			else
+				*list = temp;
 
-        curr = curr->next;
-    }
+			print_list(*list);
+
+			temp = temp->prev;
+		}
+
+		curr = curr->next;
+	}
 }
-

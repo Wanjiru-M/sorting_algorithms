@@ -28,42 +28,41 @@ int len_list(listint_t *h)
  */
 void insertion_sort_list(listint_t **list)
 {
-    listint_t *c = NULL, *o = NULL;
-    listint_t *t1 = NULL, *t2 = NULL, *t3 = NULL, *t4 = NULL;
+	listint_t *curr = NULL, *one = NULL;
+	listint_t *two = NULL, *three = NULL, *four = NULL;
 
-    if (!list || !(*list) || len_list(*list) < 2)
-        return;
+	if (!list || !(*list) || len_list(*list) < 2)
+		return;
 
-    c = *list;
+	curr = *list;
 
-    while (c != NULL)
-    {
-        switch (c->prev && c->n < c->prev->n)
-        {
-            case 1:
-                o = c->prev->prev;
-                t1 = c->prev;
-                t2 = c;
-                t3 = c->next;
+	while (curr != NULL)
+	{
+		switch (curr->prev && curr->n < curr->prev->n)
+		{
+			case 1:
+				one = curr->prev->prev;
+				two = curr->prev;
+				three = curr;
+				four = curr->next;
 
-                t1->next = t3;
-                if (t3 != NULL)
-                    t3->prev = t1;
-                t2->next = t1;
-                t2->prev = o;
-                if (o != NULL)
-                    o->next = t2;
-                else
-                    *list = t2;
-                t1->prev = t2;
-                c = *list;
-                print_list(*list);
-                break;
+				two->next = four;
+				if (four != NULL)
+					four->prev = two;
+				three->next = two;
+				three->prev = one;
+				if (one != NULL)
+					one->next = three;
+				else
+					*list = three;
+				two->prev = three;
+				curr = *list;
+				print_list(*list);
+				break;
 
-            default:
-                c = c->next;
-                break;
-        }
-    }
-}
-
+			default:
+				curr = curr->next;
+				break;
+		}
+	}
+} 

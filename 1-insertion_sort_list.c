@@ -8,17 +8,17 @@
  */
 int len_list(listint_t *h)
 {
-    int len = 0;
+	int len = 0;
 
-    if (h == NULL)
-        return len;
+	if (h == NULL)
+		return (len);
 
-    do {
-        len++;
-        h = h->next;
-    } while (h != NULL);
+	do {
+		len++;
+		h = h->next;
+	} while (h != NULL);
 
-    return len;
+	return (len);
 }
 
 
@@ -65,4 +65,5 @@ void insertion_sort_list(listint_t **list)
 				break;
 		}
 	}
-} 
+}
+

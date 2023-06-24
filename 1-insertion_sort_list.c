@@ -1,10 +1,10 @@
 #include "sort.h"
 
 /**
- * len_list - returns the length of a linked list
- * @h: pointer to the list
+ * len_list - calculates the length of a linked list
+ * @h: A pointer to the head of the linked list
  *
- * Return: length of list
+ * Return: The length of the linked list
  */
 int len_list(listint_t *h)
 {
@@ -23,8 +23,8 @@ int len_list(listint_t *h)
 
 
 /**
- * insertion_sort_list - sorts a linked list with the Insert Sort algorithm
- * @list: double pointer to the list to sort
+ * insertion_sort_list - implements the Insertion Sort algorithm to sort a linked list
+ * @list: Double pointer to the list to be sorted
  */
 void insertion_sort_list(listint_t **list)
 {

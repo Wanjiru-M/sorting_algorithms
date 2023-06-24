@@ -10,14 +10,17 @@ int len_list(listint_t *h)
 {
     int len = 0;
 
-    while (h != NULL)
-    {
+    if (h == NULL)
+        return len;
+
+    do {
         len++;
         h = h->next;
-    }
+    } while (h != NULL);
 
     return len;
 }
+
 
 /**
  * insertion_sort_list - sorts a linked list with the Insert Sort algorithm
@@ -35,24 +38,24 @@ void insertion_sort_list(listint_t **list)
 
     while (c != NULL)
     {
-        switch (c->prev != NULL && c->n < c->prev->n)
+        switch (c->prev && c->n < c->prev->n)
         {
             case 1:
-                t1 = c->prev->prev;
-                t2 = c->prev;
-                t3 = c;
-                t4 = c->next;
+                o = c->prev->prev;
+                t1 = c->prev;
+                t2 = c;
+                t3 = c->next;
 
-                t2->next = t4;
-                if (t4 != NULL)
-                    t4->prev = t2;
-                t3->next = t2;
-                t3->prev = t1;
-                if (t1 != NULL)
-                    t1->next = t3;
+                t1->next = t3;
+                if (t3 != NULL)
+                    t3->prev = t1;
+                t2->next = t1;
+                t2->prev = o;
+                if (o != NULL)
+                    o->next = t2;
                 else
-                    *list = t3;
-                t2->prev = t3;
+                    *list = t2;
+                t1->prev = t2;
                 c = *list;
                 print_list(*list);
                 break;

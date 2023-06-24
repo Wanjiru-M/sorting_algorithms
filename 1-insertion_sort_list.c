@@ -23,7 +23,7 @@ int len_list(listint_t *h)
 
 
 /**
- * insertion_sort_list - implements the Insertion Sort algorithm to sort a linked list
+ * insertion_sort_list - implements the Insertion Sort algorithm
  * @list: Double pointer to the list to be sorted
  */
 void insertion_sort_list(listint_t **list)

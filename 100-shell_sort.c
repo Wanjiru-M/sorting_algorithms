@@ -14,39 +14,33 @@ void swap_ints(int *a, int *b)
 
 /**
  * shell_sort - Sort an array of integers in ascending
- *              order using the shell sort algorithm.
+ *              order using the Shell sort algorithm
+ *              with the Knuth sequence.
  * @array: An array of integers.
  * @size: The size of the array.
- *
- * Description: Uses the Knuth interval sequence.
  */
 void shell_sort(int *array, size_t size)
 {
-    size_t interval, i, j;
+    size_t interval = 1;
+    size_t i, j;
 
     if (array == NULL || size < 2)
         return;
 
-    // Calculate initial interval
-    interval = 1;
-    while (interval < (size / 3))
+    // Calculate initial interval using Knuth sequence
+    while (interval < size / 3)
         interval = interval * 3 + 1;
 
-    // Perform shell sort
-    for (; interval >= 1; interval /= 3)
-    {
-        for (i = interval; i < size; i++)
-        {
+    while (interval > 0) {
+        for (i = interval; i < size; i++) {
             j = i;
-            while (j >= interval && array[j - interval] > array[j])
-            {
+            while (j >= interval && array[j - interval] > array[j]) {
                 swap_ints(&array[j], &array[j - interval]);
                 j -= interval;
-                goto check_interval;
             }
         }
-    check_interval:
         print_array(array, size);
+        interval = (interval - 1) / 3; // Decrease interval
     }
 }
 

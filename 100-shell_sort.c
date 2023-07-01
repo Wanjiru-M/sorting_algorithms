@@ -2,16 +2,14 @@
 
 /**
  * swap_ints - Swap two integers in an array.
- * @a: The first integer to swap.
- * @b: The second integer to swap.
+ * @x: The first integer to swap.
+ * @y: The second integer to swap.
  */
-void swap_ints(int *a, int *b)
+void swap_ints(int *x, int *y)
 {
-	int tmp;
-
-	tmp = *a;
-	*a = *b;
-	*b = tmp;
+    int temp = *x;
+    *x = *y;
+    *y = temp;
 }
 
 /**
@@ -24,25 +22,30 @@ void swap_ints(int *a, int *b)
  */
 void shell_sort(int *array, size_t size)
 {
-	size_t gap, i, j;
+    size_t interval, i, j;
 
-	if (array == NULL || size < 2)
-		return;
+    if (array == NULL || size < 2)
+        return;
 
-	for (gap = 1; gap < (size / 3);)
-		gap = gap * 3 + 1;
+    // Calculate initial interval
+    interval = 1;
+    while (interval < (size / 3))
+        interval = interval * 3 + 1;
 
-	for (; gap >= 1; gap /= 3)
-	{
-		for (i = gap; i < size; i++)
-		{
-			j = i;
-			while (j >= gap && array[j - gap] > array[j])
-			{
-				swap_ints(array + j, array + (j - gap));
-				j -= gap;
-			}
-		}
-		print_array(array, size);
-	}
+    // Perform shell sort
+    do
+    {
+        for (i = interval; i < size; i++)
+        {
+            j = i;
+            while (j >= interval && array[j - interval] > array[j])
+            {
+                swap_ints(&array[j], &array[j - interval]);
+                j -= interval;
+            }
+        }
+        print_array(array, size);
+        interval /= 3;
+    } while (interval >= 1);
 }
+

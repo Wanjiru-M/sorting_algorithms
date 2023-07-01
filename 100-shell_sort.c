@@ -2,14 +2,14 @@
 
 /**
  * swap_ints - Swap two integers in an array.
- * @x: The first integer to swap.
- * @y: The second integer to swap.
+ * @a: The first integer to swap.
+ * @b: The second integer to swap.
  */
-void swap_ints(int *x, int *y)
+void swap_ints(int *a, int *b)
 {
-    int temp = *x;
-    *x = *y;
-    *y = temp;
+    int tmp = *a;
+    *a = *b;
+    *b = tmp;
 }
 
 /**
@@ -33,7 +33,7 @@ void shell_sort(int *array, size_t size)
         interval = interval * 3 + 1;
 
     // Perform shell sort
-    do
+    for (; interval >= 1; interval /= 3)
     {
         for (i = interval; i < size; i++)
         {
@@ -42,10 +42,11 @@ void shell_sort(int *array, size_t size)
             {
                 swap_ints(&array[j], &array[j - interval]);
                 j -= interval;
+                goto check_interval;
             }
         }
+    check_interval:
         print_array(array, size);
-        interval /= 3;
-    } while (interval >= 1);
+    }
 }
 

@@ -1,52 +1,70 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void counting_sort(int *array, size_t size)
-{
-    if (array == NULL || size < 2)
-        return;
-
-    // Find the maximum element in the array
+void counting_sort(int *array, size_t size) {
+    // Find the largest number in the array
     int max = array[0];
     for (size_t i = 1; i < size; i++) {
-        if (array[i] > max)
+        if (array[i] > max) {
             max = array[i];
+        }
     }
 
-    // Create the counting array of size max + 1
-    int *counting_array = malloc((max + 1) * sizeof(int));
-    if (counting_array == NULL)
+    // Create a counting array of size max+1 and initialize all elements to 0
+    int *count = (int *)malloc((max + 1) * sizeof(int));
+    if (count == NULL) {
+        printf("Memory allocation failed.\n");
         return;
-
-    // Initialize the counting array with 0s
+    }
     for (int i = 0; i <= max; i++) {
-        counting_array[i] = 0;
+        count[i] = 0;
     }
 
-    // Count the occurrences of each element in the array
+    // Count the occurrences of each number in the array
     for (size_t i = 0; i < size; i++) {
-        counting_array[array[i]]++;
+        count[array[i]]++;
     }
 
     // Print the counting array
     for (int i = 0; i <= max; i++) {
-        printf("%d", counting_array[i]);
-        if (i != max) {
+        printf("%d, ", count[i]);
+    }
+    printf("\n");
+
+    // Update the original array with the sorted values
+    size_t index = 0;
+    for (int i = 0; i <= max; i++) {
+        while (count[i] > 0) {
+            array[index++] = i;
+            count[i]--;
+        }
+    }
+
+    free(count);
+}
+
+// Helper function to print the array
+void print_array(int *array, size_t size) {
+    for (size_t i = 0; i < size; i++) {
+        printf("%d", array[i]);
+        if (i != size - 1) {
             printf(", ");
         }
     }
     printf("\n");
+}
 
-    // Sort the array using the counting array
-    size_t index = 0;
-    for (int i = 0; i <= max; i++) {
-        while (counting_array[i] > 0) {
-            array[index] = i;
-            counting_array[i]--;
-            index++;
-        }
-    }
+// Main function for testing
+int main(void) {
+    int array[] = {19, 48, 99, 71, 13, 52, 96, 73, 86, 7};
+    size_t n = sizeof(array) / sizeof(array[0]);
 
-    free(counting_array);
+    print_array(array, n);
+    printf("\n");
+    counting_sort(array, n);
+    printf("\n");
+    print_array(array, n);
+
+    return 0;
 }
 

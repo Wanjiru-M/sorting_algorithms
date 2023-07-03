@@ -1,53 +1,68 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "sort.h"
 
-void counting_sort(int *array, size_t size) {
-    if (size <= 1)
-        return;
+/**
+ * get_max - Get the maximum value in an array of integers.
+ * @array: An array of integers.
+ * @size: The size of the array.
+ *
+ * Return: The maximum integer in the array.
+ */
+int get_max(int *array, int size)
+{
+	int max, i;
 
-    size_t i;
-    int max = array[0];
+	for (max = array[0], i = 1; i < size; i++)
+	{
+		if (array[i] > max)
+			max = array[i];
+	}
 
-    for (i = 1; i < size; i++) {
-        if (array[i] > max)
-            max = array[i];
-    }
-
-    int *count = malloc((max + 1) * sizeof(int));
-    if (count == NULL) {
-        printf("Memory allocation failed!\n");
-        return;
-    }
-
-    for (i = 0; i <= max; i++) {
-        count[i] = 0;
-    }
-
-    for (i = 0; i < size; i++) {
-        count[array[i]]++;
-    }
-
-    for (i = 1; i <= max; i++) {
-        count[i] += count[i - 1];
-    }
-
-    int *output = malloc(size * sizeof(int));
-    if (output == NULL) {
-        printf("Memory allocation failed!\n");
-        free(count);
-        return;
-    }
-
-    for (ssize_t j = size - 1; j >= 0; j--) {
-        output[count[array[j]] - 1] = array[j];
-        count[array[j]]--;
-    }
-
-    for (i = 0; i < size; i++) {
-        array[i] = output[i];
-    }
-
-    free(count);
-    free(output);
+	return (max);
 }
 
+/**
+ * counting_sort - Sort an array of integers in ascending order
+ *                 using the counting sort algorithm.
+ * @array: An array of integers.
+ * @size: The size of the array.
+ *
+ * Description: Prints the counting array after setting it up.
+ */
+void counting_sort(int *array, size_t size)
+{
+	int *count, *sorted, max, i;
+
+	if (array == NULL || size < 2)
+		return;
+
+	sorted = malloc(sizeof(int) * size);
+	if (sorted == NULL)
+		return;
+	max = get_max(array, size);
+	count = malloc(sizeof(int) * (max + 1));
+	if (count == NULL)
+	{
+		free(sorted);
+		return;
+	}
+
+	for (i = 0; i < (max + 1); i++)
+		count[i] = 0;
+	for (i = 0; i < (int)size; i++)
+		count[array[i]] += 1;
+	for (i = 0; i < (max + 1); i++)
+		count[i] += count[i - 1];
+	print_array(count, max + 1);
+
+	for (i = 0; i < (int)size; i++)
+	{
+		sorted[count[array[i]] - 1] = array[i];
+		count[array[i]] -= 1;
+	}
+
+	for (i = 0; i < (int)size; i++)
+		array[i] = sorted[i];
+
+	free(sorted);
+	free(count);
+}

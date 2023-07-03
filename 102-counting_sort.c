@@ -1,68 +1,66 @@
-#include "sort.h"
+#include <stdio.h>
+#include <stdlib.h>
 
-/**
- * get_max - Get the maximum value in an array of integers.
- * @array: An array of integers.
- * @size: The size of the array.
- *
- * Return: The maximum integer in the array.
- */
-int get_max(int *array, int size)
-{
-	int max, i;
+void counting_sort(int *array, size_t size) {
+    if (size <= 1)
+        return;
 
-	for (max = array[0], i = 1; i < size; i++)
-	{
-		if (array[i] > max)
-			max = array[i];
-	}
+    // Find the maximum value in the array
+    int max = array[0];
+    for (size_t i = 1; i < size; i++) {
+        if (array[i] > max)
+            max = array[i];
+    }
 
-	return (max);
+    // Create a counting array of size max + 1
+    int *count = malloc((max + 1) * sizeof(int));
+    if (count == NULL) {
+        printf("Memory allocation failed!\n");
+        return;
+    }
+
+    // Initialize the counting array with zeros
+    for (int i = 0; i <= max; i++) {
+        count[i] = 0;
+    }
+
+    // Count the occurrences of each number in the input array
+    for (size_t i = 0; i < size; i++) {
+        count[array[i]]++;
+    }
+
+    // Print the counting array
+    for (int i = 0; i <= max; i++) {
+        printf("%d, ", count[i]);
+    }
+    printf("\n");
+
+    // Modify the counting array to store the cumulative counts
+    for (int i = 1; i <= max; i++) {
+        count[i] += count[i - 1];
+    }
+
+    // Create a temporary output array
+    int *output = malloc(size * sizeof(int));
+    if (output == NULL) {
+        printf("Memory allocation failed!\n");
+        free(count);
+        return;
+    }
+
+    // Build the sorted array
+    for (ssize_t i = size - 1; i >= 0; i--) {
+        output[count[array[i]] - 1] = array[i];
+        count[array[i]]--;
+    }
+
+    // Copy the sorted array back to the input array
+    for (size_t i = 0; i < size; i++) {
+        array[i] = output[i];
+    }
+
+    // Free dynamically allocated memory
+    free(count);
+    free(output);
 }
 
-/**
- * counting_sort - Sort an array of integers in ascending order
- *                 using the counting sort algorithm.
- * @array: An array of integers.
- * @size: The size of the array.
- *
- * Description: Prints the counting array after setting it up.
- */
-void counting_sort(int *array, size_t size)
-{
-	int *count, *sorted, max, i;
-
-	if (array == NULL || size < 2)
-		return;
-
-	sorted = malloc(sizeof(int) * size);
-	if (sorted == NULL)
-		return;
-	max = get_max(array, size);
-	count = malloc(sizeof(int) * (max + 1));
-	if (count == NULL)
-	{
-		free(sorted);
-		return;
-	}
-
-	for (i = 0; i < (max + 1); i++)
-		count[i] = 0;
-	for (i = 0; i < (int)size; i++)
-		count[array[i]] += 1;
-	for (i = 0; i < (max + 1); i++)
-		count[i] += count[i - 1];
-	print_array(count, max + 1);
-
-	for (i = 0; i < (int)size; i++)
-	{
-		sorted[count[array[i]] - 1] = array[i];
-		count[array[i]] -= 1;
-	}
-
-	for (i = 0; i < (int)size; i++)
-		array[i] = sorted[i];
-
-	free(sorted);
-	free(count);
-}
